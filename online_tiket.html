@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemesanan Tiket Film</title>
+  <style>
+    /* ======== GLOBAL ======== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #fff;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ======== CARD ======== */
+    .container {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(18px);
+      padding: 45px;
+      border-radius: 25px;
+      width: 500px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: scale(1.01);
+    }
+
+    h2 {
+      text-align: center;
+      color: #f4c542;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    h2::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: #f4c542;
+      margin: 10px auto 20px;
+      border-radius: 2px;
+    }
+
+    /* ======== FILM SECTION ======== */
+    .film-container {
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .film {
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .film img {
+      width: 130px;
+      height: 185px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      transition: 0.3s;
+    }
+
+    .film:hover img {
+      transform: scale(1.05);
+    }
+
+    .film.selected img {
+      border: 2px solid #f4c542;
+      box-shadow: 0 0 12px #f4c542;
+    }
+
+    .film p {
+      font-size: 14px;
+      color: #ddd;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* ======== INPUT FIELD ======== */
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: 600;
+      color: #e5e5e5;
+      font-size: 15px;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 8px #f4c542;
+    }
+
+    /* ======== BUTTON ======== */
+    button {
+      margin-top: 28px;
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f4c542, #c49a17);
+      color: #222;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #c49a17, #a87900);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    /* ======== HASIL ======== */
+    .hasil {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #f4c542;
+      background: rgba(255,255,255,0.08);
+      padding: 15px;
+      border-radius: 12px;
+      display: none;
+      animation: muncul 0.6s ease-in-out;
+    }
+
+    @keyframes muncul {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ======== FOOTER INFO ======== */
+    .credit {
+      position: absolute;
+      bottom: 15px;
+      font-size: 13px;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+
+    .credit span {
+      color: #f4c542;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pemesanan Tiket Film</h2>
+
+    <!-- Pilihan Film -->
+    <div class="film-container" id="filmContainer">
+      <div class="film" onclick="pilihFilm(this, '1 kakak7 ponakan')">
+        <img src="1 kakak 7 ponakan.jpg" alt="1 kakak 7 ponakan">
+        <p>1 Kakak 7 Ponakan</p>
+      </div>
+      <div class="film" onclick="pilihFilm(this, 'bila esok ibu tiada')">
+        <img src="bila esok ibu tiada.jpg" alt="bila esok ibu tiada">
+        <p>Bila Esok Ibu Tiada</p>
+      </div>
+      <div class="film" onclick="pilihFilm(this, 'perayaan matirasa')">
+        <img src="perayaan matirasa.webp" alt="perayaan mati rasa">
+        <p> Perayaan Matirasa</p>
+      </div>
+    </div>
+
+    <label for="jumlah">🎟️ Jumlah Tiket:</label>
+    <input type="number" id="jumlah" min="1" placeholder="Masukkan jumlah tiket">
+
+    <label for="jenis">💺 Jenis Kursi:</label>
+    <select id="jenis">
+      <option value="reguler">Reguler - Rp50.000</option>
+      <option value="vip">VIP - Rp75.000</option>
+    </select>
+
+    <button onclick="hitungTotal()">Pesan & Hitung Total</button>
+
+    <div class="hasil" id="totalBiaya"></div>
+  </div>
+
+  <script>
+    let filmDipilih = null;
+
+    function pilihFilm(element, namaFilm) {
+      const semuaFilm = document.querySelectorAll('.film');
+      semuaFilm.forEach(f => f.classList.remove('selected'));
+      element.classList.add('selected');
+      filmDipilih = namaFilm;
+    }
+
+    function hitungTotal() {
+      const jumlah = document.getElementById('jumlah').value;
+      const jenis = document.getElementById('jenis').value;
+      const hasilDiv = document.getElementById('totalBiaya');
+      
+      if (!filmDipilih) {
+        alert('🎬 Silakan pilih film terlebih dahulu!');
+        return;
+      }
+
+      if (jumlah === '' || jumlah <= 0) {
+        alert('⚠️ Masukkan jumlah tiket yang valid!');
+        return;
+      }
+
+      let harga = (jenis === 'vip') ? 75000 : 50000;
+      const total = jumlah * harga;
+
+      hasilDiv.style.display = 'block';
+      hasilDiv.innerHTML = `
+        🎞️ <strong>${filmDipilih}</strong><br>
+        💰 Total Biaya: Rp${total.toLocaleString('id-ID')}<br>
+        <span style="font-size:14px;color:#ccc;">(${jumlah} tiket ${jenis.toUpperCase()})</span>
+      `;
+
+      // Efek background berubah sebentar
+      const body = document.body;
+      body.style.transition = "background 1s";
+      body.style.background = "linear-gradient(135deg, #2a2a72, #009ffd)";
+      setTimeout(() => {
+        body.style.background = "linear-gradient(135deg, #1a1a2e, #16213e)";
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
